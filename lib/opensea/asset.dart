@@ -36,6 +36,8 @@ class Asset {
         traits = json['traits'],
         last_sale = json['last_sale'];
 
+  String get imageUrl => image_url;
+
   @override
   String toString() =>
       'Asset(name: $name, token_id: $token_id, asset_contract: $asset_contract, image_url: $image_url, background_color: $background_color, external_link: $external_link, owner: $owner, traits: $traits, last_sale: $last_sale)';
