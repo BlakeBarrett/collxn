@@ -19,7 +19,6 @@ void main() {
     print("NFTs for Wallet ${OpenSea.walletAddress}");
     print(actual);
     assert(actual!.isNotEmpty);
-    assert(actual?["assets"].length > 0);
   });
 
   test("Testing loading all NFT Collections over actual network call",
@@ -33,8 +32,8 @@ void main() {
   test("Testing loading a real NFT over actual network call", () async {
     final actual =
         await sdk?.getNFT(OpenSea.nftAssetContractAddress, OpenSea.nftTokenId);
-    print("NFT: ${OpenSea.nftAssetContractAddress}/${OpenSea.nftTokenId}");
+    print("NFT ${OpenSea.nftAssetContractAddress}/${OpenSea.nftTokenId}");
     print(actual);
-    assert(actual!.isNotEmpty);
+    assert(actual != null);
   });
 }
