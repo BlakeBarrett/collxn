@@ -50,18 +50,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(_walletId),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            if (_walletAssets.isEmpty) ...[
-              const Center(
-                child: Loader(),
-              ),
-            ] else ...[
-              WalletAssetsPage(title: _walletId, assets: _walletAssets),
-            ]
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          if (_walletAssets.isEmpty) ...[
+            const Loader(),
+          ] else ...[
+            WalletAssetsPage(title: _walletId, assets: _walletAssets),
+          ]
+        ],
       ),
     );
   }
@@ -72,9 +68,10 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return const Center(
+    return const Expanded(
+        child: Center(
       child: CircularProgressIndicator(),
-    );
+    ));
   }
 }
 
@@ -104,12 +101,50 @@ class AssetListWidget extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return Expanded(
-        flex: 1,
-        child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: assets.length,
-            itemBuilder: (context, index) {
-              return Image.network(assets[index].imageUrl);
-            }));
+        child: CustomScrollView(shrinkWrap: true, slivers: [
+      SliverList(
+          delegate: SliverChildBuilderDelegate(
+        (final BuildContext context, final int index) {
+          final asset = assets[index];
+          return ListTile(
+            contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+            title: Image.network(asset.imageUrl),
+            subtitle: Text(asset.name),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (final BuildContext context) =>
+                      AssetPage(asset: asset),
+                ),
+              );
+            },
+          );
+        },
+        childCount: assets.length,
+      ))
+    ]));
+  }
+}
+
+class AssetPage extends StatelessWidget {
+  const AssetPage({Key? key, required this.asset}) : super(key: key);
+
+  final Asset asset;
+
+  @override
+  Widget build(final BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(asset.name),
+        ),
+        body: Column(
+          children: [
+            Image.network(
+              asset.imageUrl,
+              fit: BoxFit.fill,
+            )
+          ],
+        ));
   }
 }
