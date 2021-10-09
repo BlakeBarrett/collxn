@@ -13,10 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
+          primarySwatch: Colors.blueGrey, backgroundColor: Colors.blueGrey),
       home: const HomePage(),
     );
   }
@@ -47,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(final BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text(_walletId),
       ),
@@ -75,7 +74,7 @@ class Loader extends StatelessWidget {
   }
 }
 
-class WalletAssetsPage extends StatefulWidget {
+class WalletAssetsPage extends StatelessWidget {
   const WalletAssetsPage({Key? key, required this.title, required this.assets})
       : super(key: key);
 
@@ -83,13 +82,8 @@ class WalletAssetsPage extends StatefulWidget {
   final List<Asset> assets;
 
   @override
-  State<WalletAssetsPage> createState() => _WalletAssetsPageState();
-}
-
-class _WalletAssetsPageState extends State<WalletAssetsPage> {
-  @override
   Widget build(final BuildContext context) {
-    return AssetListWidget(assets: widget.assets);
+    return AssetListWidget(assets: assets);
   }
 }
 
@@ -108,7 +102,7 @@ class AssetListWidget extends StatelessWidget {
           final asset = assets[index];
           return ListTile(
             contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-            title: Image.network(asset.imageUrl),
+            title: Image.network(asset.imageUrl, fit: BoxFit.fitWidth),
             subtitle: Text(asset.name),
             onTap: () {
               Navigator.push(
@@ -135,6 +129,7 @@ class AssetPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           title: Text(asset.name),
         ),
