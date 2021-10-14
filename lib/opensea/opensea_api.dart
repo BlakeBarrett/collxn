@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:convert';
 import 'package:collxn/opensea/asset.dart';
+import 'package:collxn/opensea/collection.dart';
 import 'package:http/http.dart' as http;
 
 class OpenSea {
@@ -23,11 +24,14 @@ class OpenSea {
     }).toList();
   }
 
-  Future<dynamic> getCollections(final String wallet) async {
+  Future<List<Collection>> getCollections(final String wallet) async {
     final String endpoint =
         'https://api.opensea.io/api/v1/collections?asset_owner=$wallet';
     final response = await http.get(Uri.parse(endpoint));
-    return json.decode(response.body);
+    final collections = json.decode(response.body) as List<dynamic>;
+    return collections.map((item) {
+      return Collection.fromJson(item);
+    }).toList();
   }
 
   Future<Asset> getNFT(final String wallet, final String tokenId) async {
