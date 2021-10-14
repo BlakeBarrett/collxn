@@ -10,27 +10,33 @@ class AssetListWidget extends StatelessWidget {
   Widget build(final BuildContext context) {
     return Expanded(
         child: CustomScrollView(shrinkWrap: true, slivers: [
-      SliverList(
+      SliverGrid(
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200.0,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+            childAspectRatio: 1.0,
+          ),
           delegate: SliverChildBuilderDelegate(
-        (final BuildContext context, final int index) {
-          final asset = assets[index];
-          return ListTile(
-            contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-            title: Image.network(asset.imageUrl, fit: BoxFit.fitWidth),
-            subtitle: Text(asset.name),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (final BuildContext context) =>
-                      AssetPage(asset: asset),
-                ),
+            (final BuildContext context, final int index) {
+              final asset = assets[index];
+              return ListTile(
+                contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                title: Image.network(asset.imageUrl, fit: BoxFit.fitWidth),
+                subtitle: Text(asset.name),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (final BuildContext context) =>
+                          AssetPage(asset: asset),
+                    ),
+                  );
+                },
               );
             },
-          );
-        },
-        childCount: assets.length,
-      ))
+            childCount: assets.length,
+          ))
     ]));
   }
 }
