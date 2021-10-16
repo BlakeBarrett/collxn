@@ -1,10 +1,13 @@
+import 'package:collxn/opensea/user_info.dart';
 import 'package:collxn/opensea/collection.dart';
 import 'package:flutter/material.dart';
 
 class CollectionListWidget extends StatefulWidget {
+  final UserInfo owner;
   final List<Collection> collections;
 
-  const CollectionListWidget({Key? key, required this.collections})
+  const CollectionListWidget(
+      {Key? key, required this.collections, required this.owner})
       : super(key: key);
 
   @override
@@ -16,6 +19,17 @@ class _CollectionListWidgetState extends State<CollectionListWidget> {
   Widget build(final BuildContext context) {
     return Expanded(
         child: CustomScrollView(shrinkWrap: true, slivers: [
+      const SliverAppBar(
+        title: Text('Collections'),
+        floating: true,
+        snap: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        flexibleSpace: FlexibleSpaceBar(
+          title: Text('Collections'),
+          centerTitle: true,
+        ),
+      ),
       SliverList(
         delegate: SliverChildBuilderDelegate(
           (final BuildContext context, final int index) {
