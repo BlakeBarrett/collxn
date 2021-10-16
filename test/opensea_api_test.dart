@@ -14,6 +14,12 @@ void main() {
     sdk = null;
   });
 
+  test("Testing loading user info over actual network call", () async {
+    final actual = await sdk?.getUserInfoForWallet(OpenSea.walletAddress);
+    print(actual);
+    assert(actual != null);
+  });
+
   test("Testing loading all NFTs over actual network call", () async {
     final actual = await sdk?.getNFTsForWallet(OpenSea.walletAddress);
     print("NFTs for Wallet ${OpenSea.walletAddress}");

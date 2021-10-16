@@ -4,6 +4,7 @@ import 'package:collxn/loader_widget.dart';
 import 'package:collxn/opensea/asset.dart';
 import 'package:collxn/opensea/collection.dart';
 import 'package:collxn/opensea/opensea_api.dart';
+import 'package:collxn/opensea/user_info.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,6 +34,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String _walletId = OpenSea.walletAddress;
+  late final UserInfo _user;
   final List<Asset> _walletAssets = [];
   final List<Collection> _collections = [];
 
@@ -43,6 +45,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     () async {
       final api = OpenSea();
+      await api.getUserInfoForWallet(_walletId).then((value) {
+        setState(() {
+          _user = value;
+        });
+      });
       await api.getCollections(_walletId).then((value) {
         setState(() {
           _collections.clear();
@@ -66,9 +73,6 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        title: Text(_walletId),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (index) {
@@ -91,6 +95,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           WalletContentsPage(
               title: _walletId,
+              user: _user,
               assets: _walletAssets,
               collections: _collections,
               selectedIndex: selectedIndex),
@@ -104,6 +109,7 @@ class WalletContentsPage extends StatelessWidget {
   const WalletContentsPage(
       {Key? key,
       required this.title,
+      required this.user,
       required this.assets,
       required this.collections,
       required this.selectedIndex})
@@ -111,14 +117,18 @@ class WalletContentsPage extends StatelessWidget {
 
   final int selectedIndex;
   final String title;
+  final UserInfo user;
   final List<Asset> assets;
   final List<Collection> collections;
 
   @override
   Widget build(final BuildContext context) {
     final children = <Widget>[
-      AssetListWidget(assets: assets),
-      CollectionListWidget(collections: collections),
+      AssetListWidget(assets: assets, userInfo: user),
+      CollectionListWidget(
+        collections: collections,
+        owner: user,
+      ),
     ];
     return children[selectedIndex];
   }
