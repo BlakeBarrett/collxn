@@ -258,6 +258,7 @@ class Stats {
 }
 
 class DisplayData {
+  // enum: padded, contained, covered
   late String cardDisplayStyle;
 
   DisplayData({required this.cardDisplayStyle});

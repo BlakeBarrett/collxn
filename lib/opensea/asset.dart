@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:collxn/opensea/account.dart';
+import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 /// https://docs.opensea.io/reference/asset-object
 class Asset {
@@ -10,6 +12,7 @@ class Asset {
   late final String? background_color;
   late final String? external_link;
   late final Account owner;
+  late final Account creator;
   late final dynamic traits;
   late final dynamic last_sale;
 
@@ -19,6 +22,7 @@ class Asset {
     required this.asset_contract,
     required this.image_url,
     required this.owner,
+    required this.creator,
     this.background_color,
     this.external_link,
     this.traits,
@@ -33,10 +37,12 @@ class Asset {
         background_color = json['background_color'],
         external_link = json['external_link'],
         owner = Account.fromJson(json['owner']),
+        creator = Account.fromJson(json['creator']),
         traits = json['traits'],
         last_sale = json['last_sale'];
 
   String get imageUrl => image_url;
+  Color get backgroundColor => HexColor(background_color ?? '');
 
   @override
   String toString() =>
