@@ -1,6 +1,5 @@
 import 'package:collxn/opensea/user_info.dart';
 import 'package:collxn/opensea/asset.dart';
-import 'package:collxn/user_sliver_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class AssetListWidget extends StatelessWidget {
@@ -13,38 +12,35 @@ class AssetListWidget extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Expanded(
-        child: CustomScrollView(shrinkWrap: true, slivers: [
-      UserSliverAppBarWidget(userInfo: userInfo),
-      SliverGrid(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200.0,
-            mainAxisSpacing: 10.0,
-            crossAxisSpacing: 10.0,
-            childAspectRatio: 1.0,
-          ),
-          delegate: SliverChildBuilderDelegate(
-            (final BuildContext context, final int index) {
-              final asset = assets[index];
-              final image = Image.network(asset.imageUrl, fit: BoxFit.fitWidth);
-              return ListTile(
-                contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                title: image,
-                subtitle: Text(asset.name),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (final BuildContext context) =>
-                          AssetPage(asset: asset, image: image),
-                    ),
-                  );
-                },
+    return SliverGrid(
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200.0,
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 10.0,
+        childAspectRatio: 1.0,
+      ),
+      delegate: SliverChildBuilderDelegate(
+        (final BuildContext context, final int index) {
+          final asset = assets[index];
+          final image = Image.network(asset.imageUrl, fit: BoxFit.fitWidth);
+          return ListTile(
+            contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+            title: image,
+            subtitle: Text(asset.name),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (final BuildContext context) =>
+                      AssetPage(asset: asset, image: image),
+                ),
               );
             },
-            childCount: assets.length,
-          ))
-    ]));
+          );
+        },
+        childCount: assets.length,
+      ),
+    );
   }
 }
 

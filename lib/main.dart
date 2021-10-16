@@ -5,6 +5,7 @@ import 'package:collxn/opensea/asset.dart';
 import 'package:collxn/opensea/collection.dart';
 import 'package:collxn/opensea/opensea_api.dart';
 import 'package:collxn/opensea/user_info.dart';
+import 'package:collxn/user_sliver_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -130,6 +131,14 @@ class WalletContentsPage extends StatelessWidget {
         owner: user,
       ),
     ];
-    return children[selectedIndex];
+    return Expanded(
+      child: CustomScrollView(
+        shrinkWrap: true,
+        slivers: [
+          UserSliverAppBarWidget(userInfo: user),
+          children[selectedIndex]
+        ],
+      ),
+    );
   }
 }

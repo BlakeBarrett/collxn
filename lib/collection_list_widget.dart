@@ -17,41 +17,27 @@ class CollectionListWidget extends StatefulWidget {
 class _CollectionListWidgetState extends State<CollectionListWidget> {
   @override
   Widget build(final BuildContext context) {
-    return Expanded(
-        child: CustomScrollView(shrinkWrap: true, slivers: [
-      const SliverAppBar(
-        title: Text('Collections'),
-        floating: true,
-        snap: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        flexibleSpace: FlexibleSpaceBar(
-          title: Text('Collections'),
-          centerTitle: true,
-        ),
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (final BuildContext context, final int index) {
+          final collection = widget.collections[index];
+          return ListTile(
+            title: Text('${collection.name}'),
+            subtitle: Text('${collection.description}'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (final BuildContext context) =>
+                      CollectionPage(collection: collection),
+                ),
+              );
+            },
+          );
+        },
+        childCount: widget.collections.length,
       ),
-      SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (final BuildContext context, final int index) {
-            final collection = widget.collections[index];
-            return ListTile(
-              title: Text('${collection.name}'),
-              subtitle: Text('${collection.description}'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (final BuildContext context) =>
-                        CollectionPage(collection: collection),
-                  ),
-                );
-              },
-            );
-          },
-          childCount: widget.collections.length,
-        ),
-      )
-    ]));
+    );
   }
 }
 
