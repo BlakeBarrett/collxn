@@ -1,5 +1,5 @@
-import 'package:collxn/asset_list_widget.dart';
-import 'package:collxn/collection_list_widget.dart';
+import 'package:collxn/asset_list_sliver.dart';
+import 'package:collxn/collection_list_sliver.dart';
 import 'package:collxn/loader_widget.dart';
 import 'package:collxn/opensea/asset.dart';
 import 'package:collxn/opensea/collection.dart';
