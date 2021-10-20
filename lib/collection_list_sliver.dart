@@ -2,19 +2,19 @@ import 'package:collxn/opensea/user_info.dart';
 import 'package:collxn/opensea/collection.dart';
 import 'package:flutter/material.dart';
 
-class CollectionListWidget extends StatefulWidget {
+class CollectionSliverList extends StatefulWidget {
   final UserInfo owner;
   final List<Collection> collections;
 
-  const CollectionListWidget(
+  const CollectionSliverList(
       {Key? key, required this.collections, required this.owner})
       : super(key: key);
 
   @override
-  _CollectionListWidgetState createState() => _CollectionListWidgetState();
+  _CollectionSliverListState createState() => _CollectionSliverListState();
 }
 
-class _CollectionListWidgetState extends State<CollectionListWidget> {
+class _CollectionSliverListState extends State<CollectionSliverList> {
   @override
   Widget build(final BuildContext context) {
     return SliverList(

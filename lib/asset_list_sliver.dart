@@ -2,8 +2,8 @@ import 'package:collxn/opensea/user_info.dart';
 import 'package:collxn/opensea/asset.dart';
 import 'package:flutter/material.dart';
 
-class AssetListWidget extends StatelessWidget {
-  const AssetListWidget(
+class AssetSliverGrid extends StatelessWidget {
+  const AssetSliverGrid(
       {Key? key, required this.assets, required this.userInfo})
       : super(key: key);
 

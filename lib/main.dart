@@ -5,7 +5,7 @@ import 'package:collxn/opensea/asset.dart';
 import 'package:collxn/opensea/collection.dart';
 import 'package:collxn/opensea/opensea_api.dart';
 import 'package:collxn/opensea/user_info.dart';
-import 'package:collxn/user_sliver_app_bar_widget.dart';
+import 'package:collxn/profile_header_sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -83,6 +83,10 @@ class _HomePageState extends State<HomePage> {
         },
         items: const [
           BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'Info',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.image_sharp),
             label: 'Assets',
           ),
@@ -94,7 +98,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: <Widget>[
-          WalletContentsPage(
+          ProfileWidget(
               title: _walletId,
               user: _user,
               assets: _walletAssets,
@@ -106,8 +110,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class WalletContentsPage extends StatelessWidget {
-  const WalletContentsPage(
+class ProfileWidget extends StatelessWidget {
+  const ProfileWidget(
       {Key? key,
       required this.title,
       required this.user,
@@ -125,8 +129,9 @@ class WalletContentsPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final children = <Widget>[
-      AssetListWidget(assets: assets, userInfo: user),
-      CollectionListWidget(
+      InfoSliverList(info: user.toJson()),
+      AssetSliverGrid(assets: assets, userInfo: user),
+      CollectionSliverList(
         collections: collections,
         owner: user,
       ),
@@ -135,10 +140,31 @@ class WalletContentsPage extends StatelessWidget {
       child: CustomScrollView(
         shrinkWrap: true,
         slivers: [
-          UserSliverAppBarWidget(userInfo: user),
+          ProfileHeaderSliverAppBar(userInfo: user),
           children[selectedIndex]
         ],
       ),
+    );
+  }
+}
+
+class InfoSliverList extends StatelessWidget {
+  final Map info;
+
+  const InfoSliverList({Key? key, required this.info}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final keys = info.keys.toList();
+    final values = info.values.toList();
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final key = keys[index].toString();
+        final value = values[index].toString();
+        return ListTile(
+          title: Text('$key: $value'),
+        );
+      }, childCount: keys.length),
     );
   }
 }

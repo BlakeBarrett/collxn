@@ -1,10 +1,10 @@
 import 'package:collxn/opensea/user_info.dart';
 import 'package:flutter/material.dart';
 
-class UserSliverAppBarWidget extends StatelessWidget {
+class ProfileHeaderSliverAppBar extends StatelessWidget {
   final UserInfo userInfo;
 
-  const UserSliverAppBarWidget({Key? key, required this.userInfo})
+  const ProfileHeaderSliverAppBar({Key? key, required this.userInfo})
       : super(key: key);
 
   @override
@@ -12,7 +12,7 @@ class UserSliverAppBarWidget extends StatelessWidget {
     return SliverAppBar(
       pinned: true,
       stretch: true,
-      expandedHeight: 200.0,
+      expandedHeight: 300.0,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
