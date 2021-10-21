@@ -56,6 +56,9 @@ class AssetPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(asset.name),
+      ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
         children: [
@@ -70,12 +73,17 @@ class AssetPage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (final BuildContext context) => Expanded(
-                        flex: 1,
-                        child: Image.network(
-                          asset.imageUrl,
-                          fit: BoxFit.contain,
-                        )),
+                    builder: (final BuildContext context) => Scaffold(
+                      backgroundColor: Theme.of(context).backgroundColor,
+                      body: Column(
+                        children: [
+                          Image.network(
+                            asset.imageUrl,
+                            fit: BoxFit.fill,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },

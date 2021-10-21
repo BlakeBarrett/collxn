@@ -54,6 +54,9 @@ class CollectionPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(collection.name ?? ''),
+      ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
         children: [
@@ -68,12 +71,17 @@ class CollectionPage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (final BuildContext context) => Expanded(
-                        flex: 1,
-                        child: Image.network(
-                          '${collection.imageUrl}',
-                          fit: BoxFit.contain,
-                        )),
+                    builder: (final BuildContext context) => Scaffold(
+                      backgroundColor: Theme.of(context).backgroundColor,
+                      body: Column(
+                        children: [
+                          Image.network(
+                            '${collection.imageUrl}',
+                            fit: BoxFit.fill,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
