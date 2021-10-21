@@ -1,3 +1,4 @@
+import 'package:collxn/info_sliver_list.dart';
 import 'package:collxn/opensea/user_info.dart';
 import 'package:collxn/opensea/collection.dart';
 import 'package:flutter/material.dart';
@@ -20,19 +21,23 @@ class _CollectionSliverListState extends State<CollectionSliverList> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (final BuildContext context, final int index) {
-          final collection = widget.collections[index];
-          return ListTile(
-            title: Text('${collection.name}'),
-            subtitle: Text('${collection.description}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (final BuildContext context) =>
-                      CollectionPage(collection: collection),
-                ),
-              );
-            },
+          final selectedCollection = widget.collections[index];
+          return InkWell(
+            child: ListTile(
+              title: Image.network(
+                '${selectedCollection.imageUrl}',
+                fit: BoxFit.cover,
+              ), //Text('${selectedCollection.name}'),
+              subtitle: Text('${selectedCollection.description}'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (final BuildContext context) =>
+                        CollectionPage(collection: selectedCollection),
+                  ),
+                );
+              },
+            ),
           );
         },
         childCount: widget.collections.length,
@@ -49,16 +54,45 @@ class CollectionPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('${collection.name}'),
-        ),
-        body: Column(
-          children: [
-            Image.network(
-              '${collection.imageUrl}',
-              fit: BoxFit.fill,
-            )
-          ],
-        ));
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Column(
+        children: [
+          Expanded(
+            flex: 7,
+            child: InkWell(
+              autofocus: true,
+              child: Image.network(
+                '${collection.imageUrl}',
+                fit: BoxFit.contain,
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (final BuildContext context) => Expanded(
+                        flex: 1,
+                        child: Image.network(
+                          '${collection.imageUrl}',
+                          fit: BoxFit.contain,
+                        )),
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              shrinkWrap: true,
+              slivers: [
+                InfoSliverList(info: collection.toJson()),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

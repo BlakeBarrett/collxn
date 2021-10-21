@@ -1,3 +1,4 @@
+import 'package:collxn/info_sliver_list.dart';
 import 'package:collxn/opensea/user_info.dart';
 import 'package:collxn/opensea/asset.dart';
 import 'package:flutter/material.dart';
@@ -23,19 +24,20 @@ class AssetSliverGrid extends StatelessWidget {
         (final BuildContext context, final int index) {
           final asset = assets[index];
           final image = Image.network(asset.imageUrl, fit: BoxFit.fitWidth);
-          return ListTile(
-            contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-            title: image,
-            subtitle: Text(asset.name),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (final BuildContext context) =>
-                      AssetPage(asset: asset, image: image),
-                ),
-              );
-            },
+          return InkWell(
+            child: ListTile(
+              contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+              title: image,
+              subtitle: Text(asset.name),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (final BuildContext context) =>
+                        AssetPage(asset: asset, image: image),
+                  ),
+                );
+              },
+            ),
           );
         },
         childCount: assets.length,
@@ -54,14 +56,45 @@ class AssetPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          title: Text(asset.name),
-        ),
-        body: Column(
-          children: [
-            image,
-          ],
-        ));
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Column(
+        children: [
+          Expanded(
+            flex: 7,
+            child: InkWell(
+              autofocus: true,
+              child: Image.network(
+                asset.imageUrl,
+                fit: BoxFit.contain,
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (final BuildContext context) => Expanded(
+                        flex: 1,
+                        child: Image.network(
+                          asset.imageUrl,
+                          fit: BoxFit.contain,
+                        )),
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              shrinkWrap: true,
+              slivers: [
+                InfoSliverList(info: asset.toJson()),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

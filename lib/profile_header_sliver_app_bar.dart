@@ -8,7 +8,7 @@ class ProfileHeaderSliverAppBar extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return SliverAppBar(
       pinned: true,
       stretch: true,
