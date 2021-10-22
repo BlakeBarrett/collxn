@@ -74,14 +74,16 @@ class AssetPage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (final BuildContext context) => Scaffold(
-                      backgroundColor: Theme.of(context).backgroundColor,
-                      body: Column(
-                        children: [
-                          Image.network(
+                      backgroundColor: Colors.black,
+                      body: InkWell(
+                        autofocus: true,
+                        child: Center(
+                          child: Image.network(
                             asset.imageUrl,
                             fit: BoxFit.fill,
                           ),
-                        ],
+                        ),
+                        onTap: () => Navigator.of(context).pop(),
                       ),
                     ),
                   ),

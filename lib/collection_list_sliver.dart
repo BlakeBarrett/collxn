@@ -72,14 +72,16 @@ class CollectionPage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (final BuildContext context) => Scaffold(
-                      backgroundColor: Theme.of(context).backgroundColor,
-                      body: Column(
-                        children: [
-                          Image.network(
+                      backgroundColor: Colors.black,
+                      body: InkWell(
+                        autofocus: true,
+                        child: Center(
+                          child: Image.network(
                             '${collection.imageUrl}',
                             fit: BoxFit.fill,
                           ),
-                        ],
+                        ),
+                        onTap: () => Navigator.of(context).pop(),
                       ),
                     ),
                   ),
