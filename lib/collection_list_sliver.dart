@@ -24,10 +24,13 @@ class _CollectionSliverListState extends State<CollectionSliverList> {
           final selectedCollection = widget.collections[index];
           return InkWell(
             child: ListTile(
-              title: Image.network(
-                '${selectedCollection.imageUrl}',
-                fit: BoxFit.cover,
-              ), //Text('${selectedCollection.name}'),
+              title: Hero(
+                child: Image.network(
+                  '${selectedCollection.imageUrl}',
+                  fit: BoxFit.cover,
+                ),
+                tag: '${selectedCollection.imageUrl}',
+              ),
               subtitle: Text('${selectedCollection.description}'),
               onTap: () {
                 Navigator.of(context).push(
@@ -64,9 +67,12 @@ class CollectionPage extends StatelessWidget {
             flex: 7,
             child: InkWell(
               autofocus: true,
-              child: Image.network(
-                '${collection.imageUrl}',
-                fit: BoxFit.contain,
+              child: Hero(
+                child: Image.network(
+                  '${collection.imageUrl}',
+                  fit: BoxFit.contain,
+                ),
+                tag: '${collection.imageUrl}',
               ),
               onTap: () {
                 Navigator.of(context).push(
@@ -76,9 +82,12 @@ class CollectionPage extends StatelessWidget {
                       body: InkWell(
                         autofocus: true,
                         child: Center(
-                          child: Image.network(
-                            '${collection.imageUrl}',
-                            fit: BoxFit.fill,
+                          child: Hero(
+                            child: Image.network(
+                              '${collection.imageUrl}',
+                              fit: BoxFit.fill,
+                            ),
+                            tag: '${collection.imageUrl}',
                           ),
                         ),
                         onTap: () => Navigator.of(context).pop(),

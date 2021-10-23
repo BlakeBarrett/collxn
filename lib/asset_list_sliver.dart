@@ -23,7 +23,13 @@ class AssetSliverGrid extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (final BuildContext context, final int index) {
           final asset = assets[index];
-          final image = Image.network(asset.imageUrl, fit: BoxFit.fitWidth);
+          final image = Hero(
+            child: Image.network(
+              asset.imageUrl,
+              fit: BoxFit.fitWidth,
+            ),
+            tag: asset.token_id.toString(),
+          );
           return InkWell(
             child: ListTile(
               contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
@@ -33,7 +39,7 @@ class AssetSliverGrid extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (final BuildContext context) =>
-                        AssetPage(asset: asset, image: image),
+                        AssetPage(asset: asset),
                   ),
                 );
               },
@@ -47,11 +53,9 @@ class AssetSliverGrid extends StatelessWidget {
 }
 
 class AssetPage extends StatelessWidget {
-  const AssetPage({Key? key, required this.asset, required this.image})
-      : super(key: key);
+  const AssetPage({Key? key, required this.asset}) : super(key: key);
 
   final Asset asset;
-  final Image image;
 
   @override
   Widget build(final BuildContext context) {
@@ -66,9 +70,12 @@ class AssetPage extends StatelessWidget {
             flex: 7,
             child: InkWell(
               autofocus: true,
-              child: Image.network(
-                asset.imageUrl,
-                fit: BoxFit.contain,
+              child: Hero(
+                child: Image.network(
+                  asset.imageUrl,
+                  fit: BoxFit.contain,
+                ),
+                tag: asset.token_id.toString(),
               ),
               onTap: () {
                 Navigator.of(context).push(
@@ -78,9 +85,12 @@ class AssetPage extends StatelessWidget {
                       body: InkWell(
                         autofocus: true,
                         child: Center(
-                          child: Image.network(
-                            asset.imageUrl,
-                            fit: BoxFit.fill,
+                          child: Hero(
+                            child: Image.network(
+                              asset.imageUrl,
+                              fit: BoxFit.fill,
+                            ),
+                            tag: asset.token_id.toString(),
                           ),
                         ),
                         onTap: () => Navigator.of(context).pop(),
